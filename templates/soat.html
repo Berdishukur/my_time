@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Panel Example</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"/>
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <style>
+        table.fixed { table-layout:fixed; width: 600px;}
+        table.fixed td { text-align:left; font-size: 100px; width: 20%}
+    </style>
+</head>
+<body>
+    <table class="fixed" style="align-self: center; position: absolute; margin: 100px;">
+            <td><span id="soat"></span></td>
+            <td><span class="blinker"></span></td>
+            <td><span id="daqiqa"></span></td>
+            <td><span class="blinker"></span></td>
+            <td><span id="soniya"></span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><span id="til"></span></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+<py-script>
+from js import document
+from asyncio import sleep
+from datetime import datetime
+
+soat = document.querySelector("#soat")
+daqiqa = document.querySelector("#daqiqa")
+soniya = document.querySelector("#soniya")
+blinkers = document.querySelectorAll(".blinker")
+til = document.querySelector("#til")
+
+async def run():
+    blink = True
+    while True:
+        _blinker = "" if blink else "👁"
+        _til = "" if blink else "👄"
+        hozirgi_vaqt = datetime.now()
+        _soat, _daqiqa, _soniya = hozirgi_vaqt.hour, hozirgi_vaqt.minute, hozirgi_vaqt.second
+        if _soat<10:
+            soat.textContent = f"0{_soat:0<1}"
+        else :
+                soat.textContent = f"{_soat:0<2}"
+        if _daqiqa<10:
+            daqiqa.textContent = f"0{_daqiqa:0<1}"
+        else:
+                daqiqa.textContent = f"{_daqiqa:0<2}"
+        if _soniya<10:
+            soniya.textContent = f"0{_soniya:0<1}"
+        else:
+                soniya.textContent = f"{_soniya:0<2}"
+        til.textContent = _til
+        for blinker in blinkers:
+            blinker.textContent = _blinker
+        blink = not blink
+        await sleep(1)
+await run()
+</py-script>
+
+</body>
+</html>
